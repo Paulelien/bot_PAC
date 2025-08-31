@@ -119,7 +119,7 @@ class PDFPreprocessor:
             print(f"❌ Error procesando {pdf_path}: {str(e)}")
             return []
     
-    def process_all_pdfs(self, pdfs_dir: str = "pdfs") -> List[Dict[str, Any]]:
+    def process_all_pdfs(self, pdfs_dir: str = "pdfs_curso") -> List[Dict[str, Any]]:
         """
         Procesar todos los PDFs del directorio
         
@@ -131,9 +131,9 @@ class PDFPreprocessor:
         """
         all_chunks = []
         pdf_files = {
-            "unidad1.pdf": {"unidad": 1, "tema": "conceptos_basicos_iso9001"},
-            "unidad2.pdf": {"unidad": 2, "tema": "auditorias_certificaciones"},
-            "unidad3.pdf": {"unidad": 3, "tema": "plan_aseguramiento_obras_publicas"}
+            "Contenidos_Unidad_1_PAC.pdf": {"unidad": 1, "tema": "conceptos_basicos_iso9001"},
+            "Contenidos_Unidad_2_PAC.pdf": {"unidad": 2, "tema": "auditorias_certificaciones"},
+            "Contenidos_Unidad_3_PAC.pdf": {"unidad": 3, "tema": "plan_aseguramiento_obras_publicas"}
         }
         
         for pdf_file, info in pdf_files.items():
