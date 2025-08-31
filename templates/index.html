@@ -13,76 +13,95 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #f5f5f5;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            padding: 20px;
         }
 
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Banner de advertencia */
+        .warning-banner {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px 20px;
             text-align: center;
         }
 
-        .header h1 {
-            color: #2c3e50;
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+        .warning-banner .important-label {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 8px;
+            display: block;
         }
 
-        .header p {
-            color: #7f8c8d;
-            font-size: 1.1rem;
+        .warning-banner .warning-text {
+            color: #856404;
+            font-size: 14px;
+            line-height: 1.4;
         }
 
-        .main-container {
-            flex: 1;
-            display: flex;
-            max-width: 1400px;
-            margin: 2rem auto;
-            gap: 2rem;
-            padding: 0 2rem;
-        }
-
-        .chat-container {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .chat-header {
+        /* Mensaje de introducción */
+        .intro-message {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 1.5rem;
+            padding: 20px;
             text-align: center;
         }
 
-        .chat-header h2 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+        .intro-message h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
         }
 
-        .chat-messages {
-            flex: 1;
-            padding: 1.5rem;
-            overflow-y: auto;
+        .intro-message p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Nota de inicialización */
+        .init-note {
+            background: #6f42c1;
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .init-note .info-icon {
+            background: #007bff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* Área de chat */
+        .chat-area {
+            padding: 20px;
+            min-height: 400px;
             max-height: 500px;
+            overflow-y: auto;
+            background: white;
         }
 
         .message {
-            margin-bottom: 1.5rem;
+            margin-bottom: 20px;
             display: flex;
             align-items: flex-start;
-            gap: 1rem;
+            gap: 12px;
         }
 
         .message.user {
@@ -90,95 +109,150 @@
         }
 
         .message-avatar {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             color: white;
+            font-size: 14px;
         }
 
         .message.user .message-avatar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #28a745;
         }
 
         .message.bot .message-avatar {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: #6f42c1;
         }
 
         .message-content {
-            background: #f8f9fa;
-            padding: 1rem;
-            border-radius: 15px;
             max-width: 70%;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 12px 16px;
+            border-radius: 18px;
+            position: relative;
+            word-wrap: break-word;
         }
 
         .message.user .message-content {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: #d4edda;
+            color: #155724;
+            border-bottom-left-radius: 4px;
         }
 
         .message.bot .message-content {
-            background: white;
-            border: 1px solid #e9ecef;
+            background: #6f42c1;
+            color: white;
+            border-bottom-right-radius: 4px;
         }
 
-        .chat-input-container {
-            padding: 1.5rem;
+        /* Cola de las burbujas */
+        .message.user .message-content::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -8px;
+            width: 0;
+            height: 0;
+            border: 8px solid transparent;
+            border-right-color: #d4edda;
+            border-left: 0;
+            border-bottom: 0;
+        }
+
+        .message.bot .message-content::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: -8px;
+            width: 0;
+            height: 0;
+            border: 8px solid transparent;
+            border-left-color: #6f42c1;
+            border-right: 0;
+            border-bottom: 0;
+        }
+
+        /* Área de entrada */
+        .input-area {
+            padding: 20px;
             border-top: 1px solid #e9ecef;
             background: white;
-        }
-
-        .chat-input-form {
             display: flex;
-            gap: 1rem;
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 1rem;
-            border: 2px solid #e9ecef;
-            border-radius: 25px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
-
-        .chat-input:focus {
-            border-color: #667eea;
+            gap: 12px;
+            align-items: center;
         }
 
         .send-button {
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #6f42c1;
             color: white;
             border: none;
+            padding: 12px 24px;
             border-radius: 25px;
-            font-size: 1rem;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
-            transition: transform 0.2s ease;
+            transition: background-color 0.2s;
+            white-space: nowrap;
         }
 
         .send-button:hover {
-            transform: translateY(-2px);
+            background: #5a32a3;
         }
 
         .send-button:disabled {
-            opacity: 0.6;
+            background: #adb5bd;
             cursor: not-allowed;
-            transform: none;
         }
 
+        .message-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #ced4da;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
 
+        .message-input:focus {
+            border-color: #6f42c1;
+        }
 
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-button {
+            background: none;
+            border: 1px solid #ced4da;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #6c757d;
+        }
+
+        .action-button:hover {
+            background: #f8f9fa;
+            border-color: #6f42c1;
+            color: #6f42c1;
+        }
+
+        /* Indicador de escritura */
         .typing-indicator {
             display: none;
-            padding: 1rem;
-            color: #7f8c8d;
+            padding: 12px 20px;
+            color: #6c757d;
             font-style: italic;
+            font-size: 14px;
         }
 
         .typing-dots {
@@ -197,130 +271,141 @@
             80%, 100% { content: '...'; }
         }
 
-        .welcome-message {
-            text-align: center;
-            padding: 2rem;
-            color: #7f8c8d;
-        }
-
-        .welcome-message h3 {
-            color: #2c3e50;
-            margin-bottom: 1rem;
-        }
-
-
-
+        /* Responsive */
         @media (max-width: 768px) {
-            .main-container {
-                flex-direction: column;
-                margin: 1rem;
-                padding: 0 1rem;
+            body {
+                padding: 10px;
             }
             
-            .header h1 {
-                font-size: 2rem;
+            .container {
+                border-radius: 8px;
             }
             
             .message-content {
                 max-width: 85%;
             }
+            
+            .input-area {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .send-button {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>🏗️ Chatbot PAC</h1>
-        <p>Plan de Aseguramiento de la Calidad en Construcción</p>
-    </div>
-
-    <div class="main-container">
-        <div class="chat-container">
-            <div class="chat-header">
-                <h2>💬 Asistente Educativo</h2>
-                <p>Pregunta sobre calidad en construcción</p>
-            </div>
-            
-            <div class="chat-messages" id="chatMessages">
-                <div class="welcome-message">
-                    <h3>¡Bienvenido al Chatbot PAC!</h3>
-                    <p>Tu asistente virtual para el curso de Plan de Aseguramiento de la Calidad en Construcción.</p>
-                    <p>Escribe tu pregunta en el campo de abajo para comenzar.</p>
-                </div>
-            </div>
-            
-            <div class="typing-indicator" id="typingIndicator">
-                <span class="typing-dots">El asistente está escribiendo</span>
-            </div>
-            
-            <div class="chat-input-container">
-                <form class="chat-input-form" id="chatForm">
-                    <input type="text" class="chat-input" id="chatInput" placeholder="Escribe tu pregunta sobre PAC..." autocomplete="off">
-                    <button type="submit" class="send-button" id="sendButton">
-                        Enviar
-                    </button>
-                </form>
+    <div class="container">
+        <!-- Banner de advertencia -->
+        <div class="warning-banner">
+            <span class="important-label">Importante:</span>
+            <div class="warning-text">
+                Este chatbot está en periodo de prueba. Su contenido se basa en los manuales del curso y puede presentar inconsistencias. 
+                Si detectas errores o tienes dudas, contacta al tutor en la pestaña «Consultas académicas».
             </div>
         </div>
 
+        <!-- Mensaje de introducción -->
+        <div class="intro-message">
+            <h1>🏗️ Chatbot PAC</h1>
+            <p>¡Hola! Soy tu asistente virtual especializado en el Plan de Aseguramiento de la Calidad en Construcción.</p>
+        </div>
 
+        <!-- Nota de inicialización -->
+        <div class="init-note">
+            <div class="info-icon">ℹ</div>
+            <span>Nota: La primera pregunta puede demorar más tiempo en ser respondida mientras el sistema se inicializa.</span>
+        </div>
+
+        <!-- Área de chat -->
+        <div class="chat-area" id="chatArea">
+            <!-- Los mensajes se agregarán aquí dinámicamente -->
+        </div>
+
+        <!-- Indicador de escritura -->
+        <div class="typing-indicator" id="typingIndicator">
+            <span class="typing-dots">El asistente está escribiendo</span>
+        </div>
+
+        <!-- Área de entrada -->
+        <div class="input-area">
+            <button type="button" class="send-button" id="sendButton" onclick="sendMessage()">
+                Enviar
+            </button>
+            
+            <input type="text" 
+                   class="message-input" 
+                   id="messageInput" 
+                   placeholder="Escribe tu pregunta aquí"
+                   onkeypress="handleKeyPress(event)">
+            
+            <div class="action-buttons">
+                <button type="button" class="action-button" onclick="clearInput()" title="Limpiar entrada">
+                    🗑️
+                </button>
+                <button type="button" class="action-button" onclick="clearChat()" title="Limpiar chat">
+                    📎
+                </button>
+            </div>
+        </div>
     </div>
 
     <script>
         let isTyping = false;
 
         // Elementos del DOM
-        const chatMessages = document.getElementById('chatMessages');
-        const chatForm = document.getElementById('chatForm');
-        const chatInput = document.getElementById('chatInput');
+        const chatArea = document.getElementById('chatArea');
+        const messageInput = document.getElementById('messageInput');
         const sendButton = document.getElementById('sendButton');
         const typingIndicator = document.getElementById('typingIndicator');
 
         // Event listeners
-        chatForm.addEventListener('submit', handleChatSubmit);
-        chatInput.addEventListener('input', handleInputChange);
+        messageInput.addEventListener('input', handleInputChange);
 
-        function handleChatSubmit(e) {
-            e.preventDefault();
-            const message = chatInput.value.trim();
-            if (message && !isTyping) {
-                sendMessage(message);
-                chatInput.value = '';
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
             }
         }
 
         function handleInputChange() {
-            sendButton.disabled = !chatInput.value.trim();
+            sendButton.disabled = !messageInput.value.trim();
         }
 
-        function sendMessage(message) {
-            // Agregar mensaje del usuario
-            addMessage(message, 'user');
-            
-            // Mostrar indicador de escritura
-            showTypingIndicator();
-            
-            // Enviar mensaje al backend
-            fetch('https://bot-pac.onrender.com/api/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ message: message })
-            })
-            .then(response => response.json())
-            .then(data => {
-                hideTypingIndicator();
-                if (data.response) {
-                    addMessage(data.response, 'bot');
-                } else {
-                    addMessage('Lo siento, hubo un error al procesar tu consulta.', 'bot');
-                }
-            })
-            .catch(error => {
-                hideTypingIndicator();
-                addMessage('Error de conexión. Por favor, intenta de nuevo.', 'bot');
-                console.error('Error:', error);
-            });
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message && !isTyping) {
+                addMessage(message, 'user');
+                messageInput.value = '';
+                sendButton.disabled = true;
+                
+                showTypingIndicator();
+                
+                // Enviar mensaje al backend
+                fetch('https://bot-pac.onrender.com/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    hideTypingIndicator();
+                    if (data.response) {
+                        addMessage(data.response, 'bot');
+                    } else {
+                        addMessage('Lo siento, hubo un error al procesar tu consulta.', 'bot');
+                    }
+                })
+                .catch(error => {
+                    hideTypingIndicator();
+                    addMessage('Error de conexión. Por favor, intenta de nuevo.', 'bot');
+                    console.error('Error:', error);
+                });
+            }
         }
 
         function addMessage(content, sender) {
@@ -329,7 +414,7 @@
             
             const avatar = document.createElement('div');
             avatar.className = 'message-avatar';
-            avatar.textContent = sender === 'user' ? '👤' : '🤖';
+            avatar.textContent = sender === 'user' ? 'Tú' : 'PAC';
             
             const messageContent = document.createElement('div');
             messageContent.className = 'message-content';
@@ -338,14 +423,14 @@
             messageDiv.appendChild(avatar);
             messageDiv.appendChild(messageContent);
             
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            chatArea.appendChild(messageDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
         }
 
         function showTypingIndicator() {
             isTyping = true;
             typingIndicator.style.display = 'block';
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            chatArea.scrollTop = chatArea.scrollHeight;
         }
 
         function hideTypingIndicator() {
@@ -353,9 +438,22 @@
             typingIndicator.style.display = 'none';
         }
 
+        function clearInput() {
+            messageInput.value = '';
+            sendButton.disabled = true;
+            messageInput.focus();
+        }
 
+        function clearChat() {
+            chatArea.innerHTML = '';
+        }
 
-
+        // Mensaje inicial del bot
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                addMessage('¡Hola! Soy tu asistente virtual especializado en el Plan de Aseguramiento de la Calidad en Construcción. ¿En qué puedo ayudarte hoy con respecto al curso PAC y sus manuales?', 'bot');
+            }, 1000);
+        });
     </script>
 </body>
 </html>
