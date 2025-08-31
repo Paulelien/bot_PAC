@@ -65,15 +65,15 @@ class PACChatbotAPI:
             messages.append({"role": "user", "content": user_message})
             
             # Llamar a OpenAI
-            client = openai.OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
-            response = client.chat.completions.create(
+            openai.api_key = os.getenv('OPENAI_API_KEY')
+            response = openai.ChatCompletion.create(
                 model=os.getenv('OPENAI_MODEL', 'gpt-3.5-turbo'),
                 messages=messages,
                 max_tokens=int(os.getenv('OPENAI_MAX_TOKENS', '500')),
                 temperature=float(os.getenv('OPENAI_TEMPERATURE', '0.7'))
             )
             
-            bot_response = response.choices[0].message.content
+            bot_response = response.choices[0]['message']['content']
             
             # Actualizar historial de la sesión
             if session_id:
