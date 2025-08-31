@@ -2,7 +2,8 @@
 API para integración del Chatbot PAC con LMS
 Endpoints RESTful para comunicación con sistemas externos
 VERSION CORREGIDA: Compatible con openai==0.28.1
-FORZANDO REDESPLIEGUE: Agregando workers para Gunicorn
+SISTEMA DE CHUNKS: Integrado búsqueda semántica para respuestas precisas
+FORZANDO REDESPLIEGUE: Sistema de chunks implementado
 """
 
 from flask import Flask, request, jsonify
@@ -12,7 +13,7 @@ import os
 from datetime import datetime
 import json
 from dotenv import load_dotenv
-import PyPDF2
+from semantic_search import SemanticSearch
 
 # Cargar variables de entorno
 load_dotenv()
@@ -23,26 +24,32 @@ CORS(app)
 class PACChatbotAPI:
     def __init__(self):
         self.conversation_history = {}
-        self.pdf_content = ""
-        self.load_course_pdfs()
+        self.semantic_search = SemanticSearch()
+        print("✅ Sistema de búsqueda semántica inicializado")
         
-    def load_course_pdfs(self):
-        """Cargar automáticamente todos los PDFs del curso"""
-        pdf_folder = "pdfs_curso"
-        if os.path.exists(pdf_folder):
-            for filename in os.listdir(pdf_folder):
-                if filename.lower().endswith('.pdf'):
-                    pdf_path = os.path.join(pdf_folder, filename)
-                    try:
-                        with open(pdf_path, 'rb') as pdf_file:
-                            pdf_reader = PyPDF2.PdfReader(pdf_file)
-                            content = ""
-                            for page in pdf_reader.pages:
-                                content += page.extract_text() + "\n"
-                            self.pdf_content += f"\n\n--- CONTENIDO DE {filename} ---\n{content}"
-                            print(f"✅ PDF cargado: {filename}")
-                    except Exception as e:
-                        print(f"❌ Error al cargar {filename}: {e}")
+    def get_relevant_chunks(self, user_message):
+        """Obtener chunks relevantes para la pregunta del usuario"""
+        try:
+            # Buscar chunks más relevantes usando búsqueda semántica
+            relevant_chunks = self.semantic_search.search(user_message, top_k=3)
+            
+            if relevant_chunks:
+                # Combinar contenido de chunks relevantes
+                combined_content = ""
+                for i, chunk in enumerate(relevant_chunks, 1):
+                    combined_content += f"\n\n--- CHUNK {i} (Unidad {chunk['metadata']['unidad']} - {chunk['metadata']['tema']}) ---\n"
+                    combined_content += f"Relevancia: {chunk['similarity_percentage']}%\n"
+                    combined_content += chunk['content']
+                
+                print(f"✅ Encontrados {len(relevant_chunks)} chunks relevantes para: '{user_message}'")
+                return combined_content, len(relevant_chunks)
+            else:
+                print(f"⚠️ No se encontraron chunks relevantes para: '{user_message}'")
+                return "", 0
+                
+        except Exception as e:
+            print(f"❌ Error en búsqueda semántica: {str(e)}")
+            return "", 0
     
     def get_response(self, user_message, session_id=None):
         """Obtener respuesta del chatbot usando OpenAI"""
@@ -50,8 +57,15 @@ class PACChatbotAPI:
             # Cargar prompt del sistema
             system_prompt = self.load_system_prompt()
             
-            if self.pdf_content:
-                system_prompt += f"\n\nCONTENIDO DEL CURSO PAC:\n{self.pdf_content[:15000]}"
+            # Obtener chunks relevantes para la pregunta
+            relevant_content, chunks_found = self.get_relevant_chunks(user_message)
+            
+            if relevant_content and chunks_found > 0:
+                system_prompt += f"\n\nCONTENIDO RELEVANTE DEL CURSO PAC (basado en {chunks_found} chunks):\n{relevant_content}"
+                print(f"✅ Enviando {chunks_found} chunks relevantes a OpenAI")
+            else:
+                system_prompt += "\n\nNO SE ENCONTRÓ INFORMACIÓN RELEVANTE EN LOS MANUALES DEL CURSO PAC."
+                print("⚠️ No se encontraron chunks relevantes")
             
             # Obtener historial de la sesión
             session_history = self.conversation_history.get(session_id, [])
