@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: pac-chatbot-api
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python api_lms.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.16
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-3.5-turbo
+      - key: OPENAI_MAX_TOKENS
+        value: 500
+      - key: OPENAI_TEMPERATURE
+        value: 0.7
+      - key: MAX_PDF_CONTENT_LENGTH
+        value: 15000
+      - key: API_ENV
+        value: production

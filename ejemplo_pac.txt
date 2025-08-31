@@ -1,0 +1,153 @@
+PLAN DE ASEGURAMIENTO DE LA CALIDAD EN CONSTRUCCIÓN (PAC)
+
+1. INTRODUCCIÓN AL PAC
+
+El Plan de Aseguramiento de la Calidad (PAC) es un documento técnico que establece los procedimientos, métodos y controles necesarios para garantizar que la construcción se ejecute conforme a las especificaciones técnicas, normas y estándares aplicables.
+
+1.1 Objetivos del PAC
+- Asegurar que todos los materiales y trabajos cumplan con las especificaciones
+- Establecer procedimientos claros para el control de calidad
+- Documentar todas las actividades de inspección y control
+- Prevenir defectos y no conformidades
+- Garantizar la satisfacción del cliente
+
+2. ESTRUCTURA DEL PAC
+
+2.1 Organización y Responsabilidades
+- Director del Proyecto: Responsable general de la calidad
+- Supervisor de Calidad: Coordina las actividades de control
+- Inspectores: Ejecutan las inspecciones y controles
+- Contratistas: Implementan los procedimientos de calidad
+
+2.2 Documentación Requerida
+- Especificaciones técnicas
+- Planos de construcción
+- Normas y estándares aplicables
+- Procedimientos de trabajo
+- Formatos de control e inspección
+
+3. PROCEDIMIENTOS DE CONTROL DE CALIDAD
+
+3.1 Control de Materiales
+- Verificación de certificados de calidad
+- Inspección visual de materiales
+- Ensayos de laboratorio cuando sea requerido
+- Almacenamiento adecuado de materiales
+
+3.2 Control de Procesos
+- Inspección durante la ejecución
+- Verificación de procedimientos de trabajo
+- Control de equipos y herramientas
+- Supervisión de personal calificado
+
+3.3 Control de Producto Final
+- Inspección final de trabajos
+- Verificación de cumplimiento de especificaciones
+- Documentación de resultados
+- Aprobación para siguiente fase
+
+4. PUNTOS DE CONTROL CRÍTICO
+
+4.1 Cimentación
+- Verificación de resistencia del suelo
+- Control de dimensiones y niveles
+- Verificación de armadura de acero
+- Control de calidad del concreto
+
+4.2 Estructura
+- Verificación de armadura de acero
+- Control de encofrados
+- Verificación de calidad del concreto
+- Control de juntas de construcción
+
+4.3 Instalaciones
+- Verificación de trazado
+- Control de materiales
+- Pruebas de funcionamiento
+- Verificación de cumplimiento de normas
+
+5. MANEJO DE NO CONFORMIDADES
+
+5.1 Identificación
+- Detección durante inspecciones
+- Reportes de personal de obra
+- Quejas de clientes o usuarios
+- Resultados de ensayos
+
+5.2 Acciones Correctivas
+- Suspensión del trabajo si es necesario
+- Identificación de causa raíz
+- Implementación de correcciones
+- Verificación de efectividad
+
+5.3 Documentación
+- Registro de no conformidades
+- Acciones tomadas
+- Resultados de correcciones
+- Prevención de recurrencia
+
+6. INSPECCIONES Y AUDITORÍAS
+
+6.1 Inspecciones de Calidad
+- Inspecciones diarias durante la ejecución
+- Inspecciones de hitos importantes
+- Inspecciones finales por fase
+- Inspecciones de recepción
+
+6.2 Auditorías de Calidad
+- Auditorías internas mensuales
+- Auditorías externas trimestrales
+- Verificación de cumplimiento del PAC
+- Identificación de oportunidades de mejora
+
+7. REGISTROS Y DOCUMENTACIÓN
+
+7.1 Registros de Control
+- Inspecciones diarias
+- Ensayos de materiales
+- Control de procesos
+- No conformidades y acciones correctivas
+
+7.2 Documentación del Proyecto
+- Planos actualizados
+- Especificaciones técnicas
+- Procedimientos de trabajo
+- Manuales de operación
+
+8. CAPACITACIÓN Y COMPETENCIA
+
+8.1 Personal del Proyecto
+- Capacitación en procedimientos de calidad
+- Entrenamiento en uso de equipos
+- Actualización de conocimientos técnicos
+- Evaluación de competencias
+
+8.2 Contratistas y Subcontratistas
+- Verificación de calificaciones
+- Capacitación en especificaciones del proyecto
+- Evaluación de desempeño
+- Mejora continua
+
+9. MEJORA CONTINUA
+
+9.1 Revisión del PAC
+- Evaluación periódica de efectividad
+- Actualización según lecciones aprendidas
+- Incorporación de mejores prácticas
+- Adaptación a cambios en el proyecto
+
+9.2 Indicadores de Calidad
+- Porcentaje de cumplimiento de especificaciones
+- Tiempo de respuesta a no conformidades
+- Satisfacción del cliente
+- Costos de no calidad
+
+10. CONCLUSIONES
+
+El PAC es una herramienta fundamental para garantizar la calidad en la construcción. Su implementación efectiva requiere:
+- Compromiso de toda la organización
+- Recursos adecuados para su ejecución
+- Seguimiento y control continuo
+- Mejora constante basada en resultados
+
+La calidad no es un costo adicional, sino una inversión que se recupera en satisfacción del cliente, reducción de rework y mejora de la reputación de la empresa.
