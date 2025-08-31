@@ -67,16 +67,16 @@ class PACChatbot:
             # Agregar mensaje actual del usuario
             messages.append({"role": "user", "content": user_message})
             
-            # Llamar a OpenAI (nueva sintaxis)
-            client = openai.OpenAI(api_key=openai.api_key)
-            response = client.chat.completions.create(
+            # Llamar a OpenAI (sintaxis compatible con openai==0.28.1)
+            openai.api_key = config.OPENAI_API_KEY
+            response = openai.ChatCompletion.create(
                 model=config.OPENAI_MODEL,
                 messages=messages,
                 max_tokens=config.OPENAI_MAX_TOKENS,
                 temperature=config.OPENAI_TEMPERATURE
             )
             
-            bot_response = response.choices[0].message.content
+            bot_response = response.choices[0]['message']['content']
             
             # Actualizar historial
             self.conversation_history.append({"role": "user", "content": user_message})

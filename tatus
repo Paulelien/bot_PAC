@@ -322,3 +322,8 @@
  TAB ...................................... Complete filename & cycle.
  SHIFT-TAB ...................... ESC-TAB   Complete filename & reverse cycle.
  ctrl-L ................................... Complete filename, list all.
+[33mf6a8993[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Fix OpenAI compatibility - downgrade to 0.28.1 and fix API syntax
+[33m539d5b7[m[33m ([m[1;31morigin/main[m[33m)[m Fix OpenAI version compatibility - downgrade to 0.28.1
+[33md603044[m Update API URL to correct Render domain: bot-pac.onrender.com
+[33me6d8eb0[m Add Gunicorn for production deployment
+[33md229a00[m Update API URL to Render production - tu-api.onrender.com
