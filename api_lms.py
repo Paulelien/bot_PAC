@@ -27,6 +27,14 @@ class PACChatbotAPI:
         self.semantic_search = SemanticSearch()
         print("✅ Sistema de búsqueda semántica inicializado")
         
+        # Verificar estado de chunks
+        if self.semantic_search.chunks:
+            print(f"✅ Chunks cargados: {len(self.semantic_search.chunks)}")
+            total_tokens = sum(chunk['tokens'] for chunk in self.semantic_search.chunks)
+            print(f"✅ Total tokens en chunks: {total_tokens}")
+        else:
+            print("⚠️ No se cargaron chunks. Verifica que pdf_chunks.json exista.")
+        
     def get_relevant_chunks(self, user_message):
         """Obtener chunks relevantes para la pregunta del usuario"""
         try:
@@ -145,7 +153,7 @@ def system_status():
     return jsonify({
         'status': 'online',
         'openai_configured': bool(os.getenv('OPENAI_API_KEY')),
-        'pdfs_loaded': bool(chatbot.pdf_content),
+        'chunks_loaded': bool(chatbot.semantic_search.chunks),
         'active_sessions': len(chatbot.conversation_history),
         'timestamp': datetime.now().isoformat()
     })
@@ -235,7 +243,7 @@ def get_course_info():
                 'description': 'Normativas y planes de calidad'
             }
         ],
-        'pdfs_loaded': bool(chatbot.pdf_content),
+        'chunks_loaded': bool(chatbot.semantic_search.chunks),
         'timestamp': datetime.now().isoformat()
     })
 
@@ -249,34 +257,35 @@ def search_course_content():
         if not search_term:
             return jsonify({'error': 'Término de búsqueda requerido'}), 400
         
-        # Buscar en el contenido de los PDFs
-        if chatbot.pdf_content:
-            content_lower = chatbot.pdf_content.lower()
-            search_lower = search_term.lower()
+        # Buscar en chunks usando búsqueda semántica
+        if chatbot.semantic_search.chunks:
+            relevant_chunks = chatbot.semantic_search.search(search_term, top_k=3)
             
-            if search_lower in content_lower:
-                # Encontrar contexto alrededor del término
-                start_pos = content_lower.find(search_lower)
-                context_start = max(0, start_pos - 200)
-                context_end = min(len(chatbot.pdf_content), start_pos + len(search_term) + 200)
-                context = chatbot.pdf_content[context_start:context_end]
+            if relevant_chunks:
+                # Combinar contenido de chunks relevantes
+                combined_content = ""
+                for i, chunk in enumerate(relevant_chunks, 1):
+                    combined_content += f"\n\n--- CHUNK {i} (Unidad {chunk['metadata']['unidad']} - {chunk['metadata']['tema']}) ---\n"
+                    combined_content += f"Relevancia: {chunk['similarity_percentage']}%\n"
+                    combined_content += chunk['content']
                 
                 return jsonify({
                     'search_term': search_term,
                     'found': True,
-                    'context': context,
+                    'context': combined_content,
+                    'chunks_found': len(relevant_chunks),
                     'timestamp': datetime.now().isoformat()
                 })
             else:
                 return jsonify({
                     'search_term': search_term,
                     'found': False,
-                    'message': 'Término no encontrado en el contenido del curso',
+                    'message': 'Término no encontrado en los chunks del curso',
                     'timestamp': datetime.now().isoformat()
                 })
         else:
             return jsonify({
-                'error': 'No hay contenido de PDF disponible',
+                'error': 'No hay chunks disponibles',
                 'timestamp': datetime.now().isoformat()
             }), 500
             
