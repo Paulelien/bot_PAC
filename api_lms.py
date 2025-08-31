@@ -2,6 +2,7 @@
 API para integración del Chatbot PAC con LMS
 Endpoints RESTful para comunicación con sistemas externos
 VERSION CORREGIDA: Compatible con openai==0.28.1
+FORZANDO REDESPLIEGUE: Agregando workers para Gunicorn
 """
 
 from flask import Flask, request, jsonify
