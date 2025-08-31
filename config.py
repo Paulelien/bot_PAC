@@ -25,7 +25,7 @@ class Config:
     
     # Configuración del chatbot
     MAX_CONVERSATION_HISTORY = int(os.getenv('MAX_CONVERSATION_HISTORY', '20'))
-    MAX_PDF_CONTENT_LENGTH = int(os.getenv('MAX_PDF_CONTENT_LENGTH', '15000'))
+    MAX_PDF_CONTENT_LENGTH = int(os.getenv('MAX_PDF_CONTENT_LENGTH', '100000'))
     
     # Contexto del curso PAC
     PAC_CONTEXT = ""

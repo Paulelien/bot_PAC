@@ -5,79 +5,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot PAC - Plan de Aseguramiento de la Calidad</title>
     <style>
-        * {
+        /* RESET ESPECÍFICO PARA EL CHATBOT - NO AFECTA AL LMS */
+        .pac-chatbot-container * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
+        .pac-chatbot-container {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f5f5;
-            min-height: 100vh;
-            padding: 20px;
+            min-height: auto;
+            padding: 12px;
+            /* AISLAR DEL LMS */
+            position: relative;
+            z-index: 1000;
+            /* EVITAR CONFLICTOS DE GRID */
+            display: block;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
+        .pac-chatbot-container .pac-container {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: none;
             overflow: hidden;
+            /* AISLAR DEL LAYOUT DEL LMS */
+            position: relative;
+            z-index: 1001;
+        }
+
+        /* Separador visual entre secciones */
+        .pac-chatbot-container .pac-separator {
+            height: 16px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            border-bottom: 1px solid #e9ecef;
+            margin-bottom: 12px;
         }
 
         /* Banner de advertencia */
-        .warning-banner {
+        .pac-chatbot-container .pac-warning-banner {
             background: #fff3cd;
             border: 1px solid #ffeaa7;
-            padding: 15px 20px;
+            padding: 12px 18px;
             text-align: center;
+            border-radius: 8px;
+            margin-bottom: 12px;
         }
 
-        .warning-banner .important-label {
+        .pac-chatbot-container .pac-warning-banner .pac-important-label {
             font-weight: bold;
             color: #856404;
             margin-bottom: 8px;
             display: block;
         }
 
-        .warning-banner .warning-text {
+        .pac-chatbot-container .pac-warning-banner .pac-warning-text {
             color: #856404;
             font-size: 14px;
             line-height: 1.4;
         }
 
         /* Mensaje de introducción */
-        .intro-message {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
+        .pac-chatbot-container .pac-intro-message {
+            background: white;
+            color: #2c3e50;
+            padding: 16px 18px;
             text-align: center;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .intro-message h1 {
+        .pac-chatbot-container .pac-intro-message h1 {
             font-size: 1.8rem;
             margin-bottom: 10px;
+            color: #9233b8;
         }
 
-        .intro-message p {
+        .pac-chatbot-container .pac-intro-message p {
             font-size: 1.1rem;
-            opacity: 0.9;
+            color: #495057;
+            line-height: 1.5;
+            text-align: center;
+            width: 100%;
         }
 
         /* Nota de inicialización */
-        .init-note {
-            background: #6f42c1;
+        .pac-chatbot-container .pac-init-note {
+            background: #9233b8;
             color: white;
-            padding: 12px 20px;
+            padding: 10px 18px;
             display: flex;
             align-items: center;
             gap: 10px;
             font-size: 14px;
+            border-radius: 8px;
+            margin-bottom: 15px;
         }
 
-        .init-note .info-icon {
+        .pac-chatbot-container .pac-init-note .pac-info-icon {
             background: #007bff;
             border-radius: 50%;
             width: 20px;
@@ -89,26 +122,29 @@
         }
 
         /* Área de chat */
-        .chat-area {
-            padding: 20px;
-            min-height: 400px;
-            max-height: 500px;
+        .pac-chatbot-container .pac-chat-area {
+            padding: 16px 18px;
+            min-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
             background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
         }
 
-        .message {
-            margin-bottom: 20px;
+        .pac-chatbot-container .pac-message {
+            margin-bottom: 16px;
             display: flex;
             align-items: flex-start;
             gap: 12px;
         }
 
-        .message.user {
-            flex-direction: row-reverse;
+        .pac-chatbot-container .pac-message.user {
+            flex-direction: row;
+            justify-content: flex-start;
         }
 
-        .message-avatar {
+        .pac-chatbot-container .pac-message-avatar {
             width: 35px;
             height: 35px;
             border-radius: 50%;
@@ -118,51 +154,40 @@
             font-weight: bold;
             color: white;
             font-size: 14px;
+            /* EVITAR CONFLICTOS */
+            flex-shrink: 0;
         }
 
-        .message.user .message-avatar {
-            background: #28a745;
+        .pac-chatbot-container .pac-message.user .pac-message-avatar {
+            display: none;
         }
 
-        .message.bot .message-avatar {
-            background: #6f42c1;
+        .pac-chatbot-container .pac-message.bot .pac-message-avatar {
+            display: none;
         }
 
-        .message-content {
-            max-width: 70%;
+        .pac-chatbot-container .pac-message-content {
+            max-width: 60%;
             padding: 12px 16px;
             border-radius: 18px;
             position: relative;
             word-wrap: break-word;
         }
 
-        .message.user .message-content {
-            background: #d4edda;
-            color: #155724;
-            border-bottom-left-radius: 4px;
+        .pac-chatbot-container .pac-message.user .pac-message-content {
+            background: #e8f5e8;
+            color: #2d5a2d;
+            border-bottom-right-radius: 4px;
         }
 
-        .message.bot .message-content {
-            background: #6f42c1;
+        .pac-chatbot-container .pac-message.bot .pac-message-content {
+            background: #9233b8;
             color: white;
             border-bottom-right-radius: 4px;
         }
 
         /* Cola de las burbujas */
-        .message.user .message-content::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: -8px;
-            width: 0;
-            height: 0;
-            border: 8px solid transparent;
-            border-right-color: #d4edda;
-            border-left: 0;
-            border-bottom: 0;
-        }
-
-        .message.bot .message-content::after {
+        .pac-chatbot-container .pac-message.user .pac-message-content::after {
             content: '';
             position: absolute;
             bottom: 0;
@@ -170,23 +195,37 @@
             width: 0;
             height: 0;
             border: 8px solid transparent;
-            border-left-color: #6f42c1;
+            border-left-color: #e8f5e8;
+            border-right: 0;
+            border-bottom: 0;
+        }
+
+        .pac-chatbot-container .pac-message.bot .pac-message-content::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: -8px;
+            width: 0;
+            height: 0;
+            border: 8px solid transparent;
+            border-left-color: #9233b8;
             border-right: 0;
             border-bottom: 0;
         }
 
         /* Área de entrada */
-        .input-area {
-            padding: 20px;
+        .pac-chatbot-container .pac-input-area {
+            padding: 14px 18px;
             border-top: 1px solid #e9ecef;
             background: white;
             display: flex;
             gap: 12px;
             align-items: center;
+            border-radius: 0 0 8px 8px;
         }
 
-        .send-button {
-            background: #6f42c1;
+        .pac-chatbot-container .pac-send-button {
+            background: #9233b8;
             color: white;
             border: none;
             padding: 12px 24px;
@@ -198,16 +237,16 @@
             white-space: nowrap;
         }
 
-        .send-button:hover {
-            background: #5a32a3;
+        .pac-chatbot-container .pac-send-button:hover {
+            background: #7a2a9a;
         }
 
-        .send-button:disabled {
+        .pac-chatbot-container .pac-send-button:disabled {
             background: #adb5bd;
             cursor: not-allowed;
         }
 
-        .message-input {
+        .pac-chatbot-container .pac-message-input {
             flex: 1;
             padding: 12px 16px;
             border: 1px solid #ced4da;
@@ -217,16 +256,16 @@
             transition: border-color 0.2s;
         }
 
-        .message-input:focus {
-            border-color: #6f42c1;
+        .pac-chatbot-container .pac-message-input:focus {
+            border-color: #9233b8;
         }
 
-        .action-buttons {
+        .pac-chatbot-container .pac-action-buttons {
             display: flex;
             gap: 8px;
         }
 
-        .action-button {
+        .pac-chatbot-container .pac-action-button {
             background: none;
             border: 1px solid #ced4da;
             border-radius: 50%;
@@ -240,14 +279,14 @@
             color: #6c757d;
         }
 
-        .action-button:hover {
+        .pac-chatbot-container .pac-action-button:hover {
             background: #f8f9fa;
-            border-color: #6f42c1;
-            color: #6f42c1;
+            border-color: #9233b8;
+            color: #9233b8;
         }
 
         /* Indicador de escritura */
-        .typing-indicator {
+        .pac-chatbot-container .pac-typing-indicator {
             display: none;
             padding: 12px 20px;
             color: #6c757d;
@@ -255,133 +294,150 @@
             font-size: 14px;
         }
 
-        .typing-dots {
+        .pac-chatbot-container .pac-typing-dots {
             display: inline-block;
         }
 
-        .typing-dots::after {
+        .pac-chatbot-container .pac-typing-dots::after {
             content: '';
-            animation: typing 1.5s infinite;
+            animation: pac-typing 1.5s infinite;
         }
 
-        @keyframes typing {
+        @keyframes pac-typing {
             0%, 20% { content: ''; }
             40% { content: '.'; }
             60% { content: '..'; }
             80%, 100% { content: '...'; }
         }
 
-        /* Responsive */
+        /* Responsive específico del chatbot */
         @media (max-width: 768px) {
-            body {
+            .pac-chatbot-container {
                 padding: 10px;
             }
             
-            .container {
+            .pac-chatbot-container .pac-container {
                 border-radius: 8px;
             }
             
-            .message-content {
+            .pac-chatbot-container .pac-message-content {
                 max-width: 85%;
             }
             
-            .input-area {
+            .pac-chatbot-container .pac-input-area {
                 flex-direction: column;
                 gap: 15px;
             }
             
-            .send-button {
+            .pac-chatbot-container .pac-send-button {
                 width: 100%;
+            }
+        }
+        
+        /* Pantallas grandes */
+        @media (min-width: 1200px) {
+            .pac-chatbot-container {
+                padding: 20px;
+            }
+            
+            .pac-chatbot-container .pac-message-content {
+                max-width: 55%;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Banner de advertencia -->
-        <div class="warning-banner">
-            <span class="important-label">Importante:</span>
-            <div class="warning-text">
-                Este chatbot está en periodo de prueba. Su contenido se basa en los manuales del curso y puede presentar inconsistencias. 
-                Si detectas errores o tienes dudas, contacta al tutor en la pestaña «Consultas académicas».
+    <div class="pac-chatbot-container">
+        <div class="pac-container">
+            <!-- Banner de advertencia -->
+            <div class="pac-warning-banner">
+                <span class="pac-important-label">Importante:</span>
+                <div class="pac-warning-text">
+                    Este chatbot está en periodo de prueba. Su contenido se basa en los manuales del curso y puede presentar inconsistencias. 
+                    Si detectas errores o tienes dudas, contacta al tutor en la pestaña «Consultas académicas».
+                </div>
             </div>
-        </div>
 
-        <!-- Mensaje de introducción -->
-        <div class="intro-message">
-            <h1>🏗️ Chatbot PAC</h1>
-            <p>¡Hola! Soy tu asistente virtual especializado en el Plan de Aseguramiento de la Calidad en Construcción.</p>
-        </div>
+            <!-- Mensaje de introducción -->
+            <div class="pac-intro-message">
+                <h1></h1>
+                <p>¡Hola! Soy NEXO tu asistente virtual. Estoy aquí para ayudarte con tus dudas sobre el curso de Plan de Aseguramiento de la Calidad en Construcción (PAC).</p>
+            </div>
 
-        <!-- Nota de inicialización -->
-        <div class="init-note">
-            <div class="info-icon">ℹ</div>
-            <span>Nota: La primera pregunta puede demorar más tiempo en ser respondida mientras el sistema se inicializa.</span>
-        </div>
+            <!-- Separador visual -->
+            <div class="pac-separator"></div>
 
-        <!-- Área de chat -->
-        <div class="chat-area" id="chatArea">
-            <!-- Los mensajes se agregarán aquí dinámicamente -->
-        </div>
+            <!-- Nota de inicialización -->
+            <div class="pac-init-note">
+                <div class="pac-info-icon">ℹ</div>
+                <span>Nota: La primera pregunta puede demorar más tiempo en ser respondida mientras el sistema se inicializa.</span>
+            </div>
 
-        <!-- Indicador de escritura -->
-        <div class="typing-indicator" id="typingIndicator">
-            <span class="typing-dots">El asistente está escribiendo</span>
-        </div>
+            <!-- Área de chat -->
+            <div class="pac-chat-area" id="pacChatArea">
+                <!-- Los mensajes se agregarán aquí dinámicamente -->
+            </div>
 
-        <!-- Área de entrada -->
-        <div class="input-area">
-            <button type="button" class="send-button" id="sendButton" onclick="sendMessage()">
-                Enviar
-            </button>
-            
-            <input type="text" 
-                   class="message-input" 
-                   id="messageInput" 
-                   placeholder="Escribe tu pregunta aquí"
-                   onkeypress="handleKeyPress(event)">
-            
-            <div class="action-buttons">
-                <button type="button" class="action-button" onclick="clearInput()" title="Limpiar entrada">
-                    🗑️
+            <!-- Indicador de escritura -->
+            <div class="pac-typing-indicator" id="pacTypingIndicator">
+                <span class="pac-typing-dots">El asistente está escribiendo</span>
+            </div>
+
+            <!-- Área de entrada -->
+            <div class="pac-input-area">
+                <button type="button" class="pac-send-button" id="pacSendButton" onclick="pacSendMessage()">
+                    Enviar
                 </button>
-                <button type="button" class="action-button" onclick="clearChat()" title="Limpiar chat">
-                    📎
-                </button>
+                
+                <input type="text" 
+                       class="pac-message-input" 
+                       id="pacMessageInput" 
+                       placeholder="Escribe tu pregunta aquí"
+                       onkeypress="pacHandleKeyPress(event)">
+                
+                <div class="pac-action-buttons">
+                    <button type="button" class="pac-action-button" onclick="pacClearInput()" title="Limpiar entrada">
+                        🗑️
+                    </button>
+                    <button type="button" class="pac-action-button" onclick="pacClearChat()" title="Limpiar chat">
+                        📎
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        let isTyping = false;
+        // VARIABLES ESPECÍFICAS DEL CHATBOT - EVITAR CONFLICTOS
+        let pacIsTyping = false;
 
-        // Elementos del DOM
-        const chatArea = document.getElementById('chatArea');
-        const messageInput = document.getElementById('messageInput');
-        const sendButton = document.getElementById('sendButton');
-        const typingIndicator = document.getElementById('typingIndicator');
+        // Elementos del DOM con prefijo único
+        const pacChatArea = document.getElementById('pacChatArea');
+        const pacMessageInput = document.getElementById('pacMessageInput');
+        const pacSendButton = document.getElementById('pacSendButton');
+        const pacTypingIndicator = document.getElementById('pacTypingIndicator');
 
-        // Event listeners
-        messageInput.addEventListener('input', handleInputChange);
+        // Event listeners específicos
+        pacMessageInput.addEventListener('input', pacHandleInputChange);
 
-        function handleKeyPress(event) {
+        function pacHandleKeyPress(event) {
             if (event.key === 'Enter') {
-                sendMessage();
+                pacSendMessage();
             }
         }
 
-        function handleInputChange() {
-            sendButton.disabled = !messageInput.value.trim();
+        function pacHandleInputChange() {
+            pacSendButton.disabled = !pacMessageInput.value.trim();
         }
 
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            if (message && !isTyping) {
-                addMessage(message, 'user');
-                messageInput.value = '';
-                sendButton.disabled = true;
+        function pacSendMessage() {
+            const message = pacMessageInput.value.trim();
+            if (message && !pacIsTyping) {
+                pacAddMessage(message, 'user');
+                pacMessageInput.value = '';
+                pacSendButton.disabled = true;
                 
-                showTypingIndicator();
+                pacShowTypingIndicator();
                 
                 // Enviar mensaje al backend
                 fetch('https://bot-pac.onrender.com/api/chat', {
@@ -393,65 +449,65 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    hideTypingIndicator();
+                    pacHideTypingIndicator();
                     if (data.response) {
-                        addMessage(data.response, 'bot');
+                        pacAddMessage(data.response, 'bot');
                     } else {
-                        addMessage('Lo siento, hubo un error al procesar tu consulta.', 'bot');
+                        pacAddMessage('Lo siento, hubo un error al procesar tu consulta.', 'bot');
                     }
                 })
                 .catch(error => {
-                    hideTypingIndicator();
-                    addMessage('Error de conexión. Por favor, intenta de nuevo.', 'bot');
+                    pacHideTypingIndicator();
+                    pacAddMessage('Error de conexión. Por favor, intenta de nuevo.', 'bot');
                     console.error('Error:', error);
                 });
             }
         }
 
-        function addMessage(content, sender) {
+        function pacAddMessage(content, sender) {
             const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}`;
-            
-            const avatar = document.createElement('div');
-            avatar.className = 'message-avatar';
-            avatar.textContent = sender === 'user' ? 'Tú' : 'PAC';
+            messageDiv.className = `pac-message ${sender}`;
             
             const messageContent = document.createElement('div');
-            messageContent.className = 'message-content';
-            messageContent.textContent = content;
+            messageContent.className = 'pac-message-content';
             
-            messageDiv.appendChild(avatar);
+            if (sender === 'user') {
+                messageContent.textContent = `Tú: ${content}`;
+            } else {
+                messageContent.textContent = `NEXO: ${content}`;
+            }
+            
             messageDiv.appendChild(messageContent);
             
-            chatArea.appendChild(messageDiv);
-            chatArea.scrollTop = chatArea.scrollHeight;
+            pacChatArea.appendChild(messageDiv);
+            pacChatArea.scrollTop = pacChatArea.scrollHeight;
         }
 
-        function showTypingIndicator() {
-            isTyping = true;
-            typingIndicator.style.display = 'block';
-            chatArea.scrollTop = chatArea.scrollHeight;
+        function pacShowTypingIndicator() {
+            pacIsTyping = true;
+            pacTypingIndicator.style.display = 'block';
+            pacChatArea.scrollTop = pacChatArea.scrollHeight;
         }
 
-        function hideTypingIndicator() {
-            isTyping = false;
-            typingIndicator.style.display = 'none';
+        function pacHideTypingIndicator() {
+            pacIsTyping = false;
+            pacTypingIndicator.style.display = 'none';
         }
 
-        function clearInput() {
-            messageInput.value = '';
-            sendButton.disabled = true;
-            messageInput.focus();
+        function pacClearInput() {
+            pacMessageInput.value = '';
+            pacSendButton.disabled = true;
+            pacMessageInput.focus();
         }
 
-        function clearChat() {
-            chatArea.innerHTML = '';
+        function pacClearChat() {
+            pacChatArea.innerHTML = '';
         }
 
         // Mensaje inicial del bot
         window.addEventListener('load', function() {
             setTimeout(() => {
-                addMessage('¡Hola! Soy tu asistente virtual especializado en el Plan de Aseguramiento de la Calidad en Construcción. ¿En qué puedo ayudarte hoy con respecto al curso PAC y sus manuales?', 'bot');
+                pacAddMessage('Hola, ¿en qué puedo ayudarte hoy con los contenidos del curso PAC?', 'bot');
             }, 1000);
         });
     </script>
