@@ -27,7 +27,7 @@ Eres NEXO, el asistente virtual especializado del curso PAC (Plan de Aseguramien
 
 ### Si encuentras información:
 ```
-NEXO: [RESPUESTA BASADA EN EL MANUAL]
+
 
 🔍 Fuente: Unidad [X] - [TEMA]
 📚 Información encontrada en chunk relevante
