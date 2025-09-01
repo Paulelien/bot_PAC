@@ -39,15 +39,24 @@ class PACChatbotAPI:
         """Obtener chunks relevantes para la pregunta del usuario"""
         try:
             # Buscar chunks más relevantes usando búsqueda semántica
-            relevant_chunks = self.semantic_search.search(user_message, top_k=3)
+            relevant_chunks = self.semantic_search.search(user_message, top_k=2)  # Reducir a 2 chunks
             
             if relevant_chunks:
-                # Combinar contenido de chunks relevantes
+                # Extraer solo información esencial de los chunks
                 combined_content = ""
                 for i, chunk in enumerate(relevant_chunks, 1):
-                    combined_content += f"\n\n--- CHUNK {i} (Unidad {chunk['metadata']['unidad']} - {chunk['metadata']['tema']}) ---\n"
+                    # Solo incluir las primeras 100 palabras del chunk más relevante
+                    content_words = chunk['content'].split()
+                    if i == 1 and len(content_words) > 100:
+                        # Para el chunk más relevante, incluir solo las primeras 100 palabras
+                        truncated_content = ' '.join(content_words[:100]) + "..."
+                    else:
+                        # Para chunks adicionales, incluir solo las primeras 50 palabras
+                        truncated_content = ' '.join(content_words[:50]) + "..."
+                    
+                    combined_content += f"\n\n📚 CHUNK {i} (Unidad {chunk['metadata']['unidad']} - {chunk['metadata']['tema']})\n"
                     combined_content += f"Relevancia: {chunk['similarity_percentage']}%\n"
-                    combined_content += chunk['content']
+                    combined_content += f"Contenido: {truncated_content}"
                 
                 print(f"✅ Encontrados {len(relevant_chunks)} chunks relevantes para: '{user_message}'")
                 return combined_content, len(relevant_chunks)
@@ -93,11 +102,23 @@ class PACChatbotAPI:
             response = openai.ChatCompletion.create(
                 model=os.getenv('OPENAI_MODEL', 'gpt-3.5-turbo'),
                 messages=messages,
-                max_tokens=int(os.getenv('OPENAI_MAX_TOKENS', '500')),
+                max_tokens=int(os.getenv('OPENAI_MAX_TOKENS', '300')),
                 temperature=float(os.getenv('OPENAI_TEMPERATURE', '0.7'))
             )
             
             bot_response = response.choices[0]['message']['content']
+            
+            # Validar longitud de respuesta y truncar si es necesario
+            word_count = len(bot_response.split())
+            if word_count > 150:
+                print(f"⚠️ Respuesta muy larga ({word_count} palabras), truncando...")
+                # Truncar a 150 palabras manteniendo oraciones completas
+                words = bot_response.split()[:150]
+                bot_response = ' '.join(words)
+                # Asegurar que termine con punto
+                if not bot_response.endswith('.'):
+                    bot_response += '.'
+                bot_response += '\n\n💡 Para más detalles, haz preguntas específicas de seguimiento.'
             
             # Actualizar historial de la sesión
             if session_id:
