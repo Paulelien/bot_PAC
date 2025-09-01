@@ -6,9 +6,8 @@ Encuentra los chunks más relevantes para cada pregunta del estudiante
 import json
 import os
 from typing import List, Dict, Any
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+import re
 
 class SemanticSearch:
     def __init__(self, chunks_file: str = "pdf_chunks.json"):
